@@ -210,7 +210,7 @@ viewTabs before selected after =
 viewTab : Bool -> List (Attribute msg) -> ( String, msg ) -> Html msg
 viewTab isActive attrs ( name, msg ) =
     -- tab True  [] [] [ icon Standard [] [ i [ class "fa fa-image"      ] [] ], text name  ]
-    tab isActive  [] [] [  text name  ]
+    tab isActive  [onClick msg] [] [  text name  ]
 
     --li [ class "nav-item" ]
     --    [ -- Note: The RealWorld CSS requires an href to work properly.

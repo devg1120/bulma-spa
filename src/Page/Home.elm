@@ -275,7 +275,7 @@ yourFeed cred =
 
 globalFeed : ( String, Msg )
 globalFeed =
-    ( "+Global Feed", ClickedTab GlobalFeed )
+    ( "Global Feed", ClickedTab GlobalFeed )
 
 
 tagFeed : ArticleTag.Tag -> ( String, Msg )
