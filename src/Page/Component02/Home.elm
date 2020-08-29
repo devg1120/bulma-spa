@@ -102,7 +102,7 @@ init session navbar =
 
 view : Model -> { title : String, content : Html Msg }
 view model =
-    { title = "Conduit"
+    { title = "Comp02"
     , content =
         div [ class "home-page " 
              ,marginless

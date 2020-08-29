@@ -62,13 +62,14 @@ in the header. (This comes up during slow page transitions.)
 
 view : Maybe Viewer -> Page -> Navbar -> { title : String, content : Html msg } -> Document msg
 view maybeViewer page navbar { title, content } =
+    -- let _ = Debug.log "TITLE:" title in
     let
       content_ = basePanel content
     in
     { title = title ++ " - Conduit"
     -- , body = viewHeader page maybeViewer :: content :: [ viewFooter ]
     -- , body = viewHeader page maybeViewer navbar :: content :: []
-    , body = viewHeader page maybeViewer navbar :: content_ :: []
+    , body = viewHeader title page maybeViewer navbar :: content_ :: []
     }
 
 basePanel: Html msg -> Html msg
@@ -108,19 +109,19 @@ commonButtonModifiers
        | size = Small
        }
 
-viewHeader : Page -> Maybe Viewer -> Navbar -> Html msg
-viewHeader page maybeViewer navbar =
+viewHeader : String -> Page -> Maybe Viewer -> Navbar -> Html msg
+viewHeader title page maybeViewer navbar =
     case maybeViewer of
         Just viewer ->
             let _ = Debug.log "LogOn:" page in
-            viewHeaderLogOn  page viewer navbar
+            viewHeaderLogOn  title page viewer navbar
         Nothing ->
             let _ = Debug.log "LogOff:" page in
-            viewHeaderLogOff page  navbar
+            viewHeaderLogOff title page  navbar
 
 
-viewHeaderLogOn : Page ->  Viewer -> Navbar -> Html msg
-viewHeaderLogOn page viewer navbar =
+viewHeaderLogOn : String -> Page ->  Viewer -> Navbar -> Html msg
+viewHeaderLogOn title page viewer navbar =
     let
         username =
             Viewer.username viewer
@@ -191,8 +192,8 @@ viewHeaderLogOn page viewer navbar =
     ]
 
 
-viewHeaderLogOff : Page ->  Navbar -> Html msg
-viewHeaderLogOff page  navbar =
+viewHeaderLogOff : String -> Page ->  Navbar -> Html msg
+viewHeaderLogOff title page  navbar =
     fixedNavbar Top commonNavbarModifiers 
     [style "background-color" "#5CB661"
     ,style "z-index" "1000"
@@ -208,6 +209,11 @@ viewHeaderLogOff page  navbar =
         [ img [ src "https://bulma.io/images/bulma-logo.png" ] []
         ]
       ]
+    ,
+      navbarItem False []
+        [ text title
+        ]
+      
     , navbarMenu False []
       [ navbarStart [] 
         [ navbarItemLink False [] [ text "Home"  ]

@@ -385,7 +385,7 @@ changeRouteTo maybeRoute  model =
 
 update : Msg -> Model ->  ( Model, Cmd Msg )
 update msg model  =
-    let    _ = Debug.log "** Main update msg:" msg  in
+    -- let    _ = Debug.log "** Main update msg:" msg  in
     -- let    _ = Debug.log "** Main update model:" model  in
     case ( msg, model ) of
         ( MenuOpen menuid, _ ) ->
@@ -415,7 +415,7 @@ update msg model  =
 -}
 
         ( ClickedLink urlRequest, _ ) ->
-            let _ = Debug.log "-- Main update msg:  ClickedLink urlRequest" msg in
+            -- let _ = Debug.log "-- Main update msg:  ClickedLink urlRequest" msg in
 
             case urlRequest of
                 Browser.Internal url ->
@@ -429,7 +429,8 @@ update msg model  =
                             -- fragment-based routing, this entire
                             -- `case url.fragment of` expression this comment
                             -- is inside would be unnecessary.
-                            let    _ = Debug.log "**  Browser.Internal Nothing:" msg  in
+
+                            -- let    _ = Debug.log "**  Browser.Internal Nothing:" msg  in
 
                             if  url.path == "/navbar/docmenu_open" then 
                                 -- let _ = Debug.log "**  doc:" url.path in
