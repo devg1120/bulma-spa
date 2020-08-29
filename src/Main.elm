@@ -36,6 +36,7 @@ import Animation exposing (px)
 import Page.Component01.Home as Comp01
 import Page.Component02.Home as Comp02
 import Page.Component03.Home as Comp03
+import Page.Component04.Home as Comp04
 
 -- NOTE: Based on discussions around how asset management features
 -- like code splitting and lazy loading have been shaping up, it's possible
@@ -69,6 +70,7 @@ type Model
     | Comp01 Comp01.Model Navbar
     | Comp02 Comp02.Model Navbar
     | Comp03 Comp03.Model Navbar
+    | Comp04 Comp04.Model Navbar
 
 
 -- MODEL
@@ -142,6 +144,8 @@ view model  =
             viewPage navbar Page.Other GotComp02Msg (Comp02.view comp02)
         Comp03 comp03 navbar ->
             viewPage navbar Page.Other GotComp03Msg (Comp03.view comp03)
+        Comp04 comp04 navbar ->
+            viewPage navbar Page.Other GotComp04Msg (Comp04.view comp04)
 
 
 -- UPDATE
@@ -169,6 +173,7 @@ type Msg
     | GotComp01Msg Comp01.Msg
     | GotComp02Msg Comp02.Msg
     | GotComp03Msg Comp03.Msg
+    | GotComp04Msg Comp04.Msg
 
 toSession : Model -> Session
 toSession page =
@@ -207,6 +212,8 @@ toSession page =
             Comp02.toSession comp02
         Comp03 comp03 _ ->
             Comp03.toSession comp03
+        Comp04 comp04 _ ->
+            Comp04.toSession comp04
 
 toNavbar : Model -> Page.Navbar
 toNavbar page =
@@ -245,6 +252,8 @@ toNavbar page =
             Comp02.toNavbar comp02
         Comp03 comp03 _ ->
             Comp03.toNavbar comp03
+        Comp04 comp04 _ ->
+            Comp04.toNavbar comp04
 
 updateNavbar : Model -> Navbar -> Model
 updateNavbar page new_navbar =
@@ -320,6 +329,11 @@ updateNavbar page new_navbar =
                new_comp03 = Comp03.setNavbar comp03 new_navbar
             in
             ( Comp03 new_comp03 new_navbar )
+        Comp04 comp04 _ ->
+            let
+               new_comp04 = Comp04.setNavbar comp04 new_navbar
+            in
+            ( Comp04 new_comp04 new_navbar )
 
 changeRouteTo : Maybe Route  ->Model -> ( Model, Cmd Msg )
 changeRouteTo maybeRoute  model =
@@ -382,6 +396,9 @@ changeRouteTo maybeRoute  model =
         Just Route.Comp03 ->
             Comp03.init session navbar
                 |> updateWith Comp03 navbar GotComp03Msg model
+        Just Route.Comp04 ->
+            Comp04.init session navbar
+                |> updateWith Comp04 navbar GotComp04Msg model
 
 update : Msg -> Model ->  ( Model, Cmd Msg )
 update msg model  =
@@ -536,6 +553,10 @@ update msg model  =
             Comp03.update subMsg comp03
                 |> updateWith Comp03 navbar GotComp03Msg model
 
+        ( GotComp04Msg subMsg, Comp04 comp04 navbar ) ->
+            Comp04.update subMsg comp04
+                |> updateWith Comp04 navbar GotComp04Msg model
+
         ( _, _ ) ->
             let    _ = Debug.log "** Main update msg: default"   in
             -- Disregard messages that arrived for the wrong page.
@@ -624,6 +645,8 @@ subscriptions model =
             Sub.map GotComp02Msg (Comp02.subscriptions comp02)
         Comp03 comp03 navbar  ->
             Sub.map GotComp03Msg (Comp03.subscriptions comp03)
+        Comp04 comp04 navbar  ->
+            Sub.map GotComp04Msg (Comp04.subscriptions comp04)
 
 
 -- MAIN

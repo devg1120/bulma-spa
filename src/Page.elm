@@ -247,6 +247,7 @@ viewHeaderLogOff title page  navbar =
             , navbarItemLink False [Route.href Route.Comp01] [ text "comp01" ]
             , navbarItemLink False [Route.href Route.Comp02] [ text "comp02" ]
             , navbarItemLink False [Route.href Route.Comp03] [ text "comp03" ]
+            , navbarItemLink False [Route.href Route.Comp04] [ text "comp04" ]
             , navbarItemLink True  [Route.href Route.Settings] [ text "Settings" ]
             , navbarItemLink True  [Route.href Route.Register] [ text "Register" ]
             , navbarItemLink False [Route.href Route.Login] [ text "Login" ]

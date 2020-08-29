@@ -1,4 +1,4 @@
-module Page.Component03.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, update, view)
+module Page.Component04.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, update, view)
 
 
 import Api exposing (Cred)
@@ -80,7 +80,7 @@ init session navbar =
 
 view : Model -> { title : String, content : Html Msg }
 view model =
-    { title = "Comp03"
+    { title = "Comp04"
     , content =
         div [ class "home-page " 
              ,marginless
