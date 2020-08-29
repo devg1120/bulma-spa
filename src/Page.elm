@@ -233,7 +233,10 @@ viewHeaderLogOff page  navbar =
                              ] [ text "App" ] )
           [ navbarDropdown True Left [] 
             [ navbarItemLink False [] [ text "Article" ]
-            , navbarItemLink False [Route.href Route.Home] [ text "Home" ]
+--ADD COMPONENT-- navbar
+            , navbarItemLink False [Route.href Route.Comp01] [ text "comp01" ]
+            , navbarItemLink False [Route.href Route.Comp02] [ text "comp02" ]
+            , navbarItemLink False [Route.href Route.Comp03] [ text "comp03" ]
             , navbarItemLink True  [Route.href Route.Settings] [ text "Settings" ]
             , navbarItemLink True  [Route.href Route.Register] [ text "Register" ]
             , navbarItemLink False [Route.href Route.Login] [ text "Login" ]

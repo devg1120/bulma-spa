@@ -1,0 +1,1 @@
+grep -r -n -e Comp01 -e comp01  -e Comp02 -e comp02 . > compdiff 

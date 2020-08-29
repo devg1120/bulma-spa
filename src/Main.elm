@@ -32,6 +32,10 @@ import Html.Attributes exposing (href, rel)
 
 import Animation exposing (px)
 
+--ADD COMPONENT-- import
+import Page.Component01.Home as Comp01
+import Page.Component02.Home as Comp02
+import Page.Component03.Home as Comp03
 
 -- NOTE: Based on discussions around how asset management features
 -- like code splitting and lazy loading have been shaping up, it's possible
@@ -61,6 +65,10 @@ type Model
     | Profile Username Profile.Model Navbar 
     | Article Article.Model Navbar
     | Editor (Maybe Slug) Editor.Model Navbar
+--ADD COMPONENT-- Type Model
+    | Comp01 Comp01.Model Navbar
+    | Comp02 Comp02.Model Navbar
+    | Comp03 Comp03.Model Navbar
 
 
 -- MODEL
@@ -127,6 +135,13 @@ view model  =
         Editor (Just _) editor navbar ->
             viewPage navbar Page.Other GotEditorMsg (Editor.view editor)
 
+--ADD COMPONENT-- view
+        Comp01 comp01 navbar ->
+            viewPage navbar Page.Other GotComp01Msg (Comp01.view comp01)
+        Comp02 comp02 navbar ->
+            viewPage navbar Page.Other GotComp02Msg (Comp02.view comp02)
+        Comp03 comp03 navbar ->
+            viewPage navbar Page.Other GotComp03Msg (Comp03.view comp03)
 
 
 -- UPDATE
@@ -150,6 +165,10 @@ type Msg
     | GotSession Session
 --    | NavMenu Page.Msg
     | MenuOpen MenuId
+--ADD COMPONENT-- type Msg
+    | GotComp01Msg Comp01.Msg
+    | GotComp02Msg Comp02.Msg
+    | GotComp03Msg Comp03.Msg
 
 toSession : Model -> Session
 toSession page =
@@ -181,6 +200,14 @@ toSession page =
         Editor _ editor _ ->
             Editor.toSession editor
 
+--ADD COMPONENT-- toSession
+        Comp01 comp01 _ ->
+            Comp01.toSession comp01
+        Comp02 comp02 _ ->
+            Comp02.toSession comp02
+        Comp03 comp03 _ ->
+            Comp03.toSession comp03
+
 toNavbar : Model -> Page.Navbar
 toNavbar page =
     case page of
@@ -210,6 +237,14 @@ toNavbar page =
 
         Editor _ editor _ ->
             Editor.toNavbar editor
+
+--ADD COMPONENT-- toNavbar
+        Comp01 comp01 _ ->
+            Comp01.toNavbar comp01
+        Comp02 comp02 _ ->
+            Comp02.toNavbar comp02
+        Comp03 comp03 _ ->
+            Comp03.toNavbar comp03
 
 updateNavbar : Model -> Navbar -> Model
 updateNavbar page new_navbar =
@@ -269,6 +304,23 @@ updateNavbar page new_navbar =
             in
             ( Editor a new_editor new_navbar )
 
+--ADD COMPONENT-- updateNavbar
+        Comp01 comp01 _ ->
+            let
+               new_comp01 = Comp01.setNavbar comp01 new_navbar
+            in
+            ( Comp01 new_comp01 new_navbar )
+        Comp02 comp02 _ ->
+            let
+               new_comp02 = Comp02.setNavbar comp02 new_navbar
+            in
+            ( Comp02 new_comp02 new_navbar )
+        Comp03 comp03 _ ->
+            let
+               new_comp03 = Comp03.setNavbar comp03 new_navbar
+            in
+            ( Comp03 new_comp03 new_navbar )
+
 changeRouteTo : Maybe Route  ->Model -> ( Model, Cmd Msg )
 changeRouteTo maybeRoute  model =
     let
@@ -320,6 +372,16 @@ changeRouteTo maybeRoute  model =
             Article.init session slug navbar
                 |> updateWith Article navbar GotArticleMsg model
 
+--ADD COMPONENT-- changeRouteTo
+        Just Route.Comp01 ->
+            Comp01.init session navbar
+                |> updateWith Comp01 navbar GotComp01Msg model
+        Just Route.Comp02 ->
+            Comp02.init session navbar
+                |> updateWith Comp02 navbar GotComp02Msg model
+        Just Route.Comp03 ->
+            Comp03.init session navbar
+                |> updateWith Comp03 navbar GotComp03Msg model
 
 update : Msg -> Model ->  ( Model, Cmd Msg )
 update msg model  =
@@ -460,6 +522,19 @@ update msg model  =
             , Route.replaceUrl (Session.navKey session) Route.Home
             )
 
+--ADD COMPONENT-- update
+        ( GotComp01Msg subMsg, Comp01 comp01 navbar ) ->
+            Comp01.update subMsg comp01
+                |> updateWith Comp01 navbar GotComp01Msg model
+
+        ( GotComp02Msg subMsg, Comp02 comp02 navbar ) ->
+            Comp02.update subMsg comp02
+                |> updateWith Comp02 navbar GotComp02Msg model
+
+        ( GotComp03Msg subMsg, Comp03 comp03 navbar ) ->
+            Comp03.update subMsg comp03
+                |> updateWith Comp03 navbar GotComp03Msg model
+
         ( _, _ ) ->
             let    _ = Debug.log "** Main update msg: default"   in
             -- Disregard messages that arrived for the wrong page.
@@ -541,6 +616,13 @@ subscriptions model =
         Editor _ editor  navbar ->
             Sub.map GotEditorMsg (Editor.subscriptions editor)
 
+--ADD COMPONENT-- subscriptions
+        Comp01 comp01 navbar  ->
+            Sub.map GotComp01Msg (Comp01.subscriptions comp01)
+        Comp02 comp02 navbar  ->
+            Sub.map GotComp02Msg (Comp02.subscriptions comp02)
+        Comp03 comp03 navbar  ->
+            Sub.map GotComp03Msg (Comp03.subscriptions comp03)
 
 
 -- MAIN

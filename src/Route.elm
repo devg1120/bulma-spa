@@ -25,6 +25,10 @@ type Route
     | Profile Username
     | NewArticle
     | EditArticle Slug
+--ADD COMPONENT-- type Route
+    | Comp01
+    | Comp02
+    | Comp03
 
 
 parser : Parser (Route -> a) a
@@ -39,6 +43,10 @@ parser =
         , Parser.map Article (s "article" </> Slug.urlParser)
         , Parser.map NewArticle (s "editor")
         , Parser.map EditArticle (s "editor" </> Slug.urlParser)
+--ADD COMPONENT-- paeser
+        , Parser.map Comp01 (s "comp01")
+        , Parser.map Comp02 (s "comp02")
+        , Parser.map Comp03 (s "comp03")
         ]
 
 
@@ -106,3 +114,13 @@ routeToPieces page =
 
         EditArticle slug ->
             [ "editor", Slug.toString slug ]
+
+--ADD COMPONENT-- routeToPieces
+        Comp01 ->
+            [ "comp01" ]
+
+        Comp02 ->
+            [ "comp02" ]
+
+        Comp03 ->
+            [ "comp03" ]
