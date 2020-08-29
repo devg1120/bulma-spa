@@ -144,6 +144,10 @@ viewHeaderLogOn title page viewer navbar =
         [ img [ src "https://bulma.io/images/bulma-logo.png" ] []
         ]
       ]
+    ,
+      navbarItem False []
+        [ text title
+        ]
     , navbarMenu False []
       [ navbarStart [] 
         [ navbarItemLink False [] [ text "Home"  ]
