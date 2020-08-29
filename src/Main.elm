@@ -474,7 +474,8 @@ toggleMenu menuid navbar  =
               let
                new_navbar = {
                            docmenu_open = not navbar.docmenu_open
-                          ,appmenu_open = navbar.appmenu_open 
+                          -- ,appmenu_open = navbar.appmenu_open 
+                          ,appmenu_open = False
                           }
               in
               new_navbar
@@ -483,7 +484,8 @@ toggleMenu menuid navbar  =
               -- let _ = Debug.log "MenuOpen AppMenu" menuid in
               let
                new_navbar = {
-                        docmenu_open = navbar.docmenu_open
+                        -- docmenu_open = navbar.docmenu_open
+                        docmenu_open = False
                        ,appmenu_open = not navbar.appmenu_open 
                        }
               in

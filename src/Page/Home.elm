@@ -111,7 +111,7 @@ view model =
             [ div [
                      style "position" "fixed"  --screen bottom position fixed //GUSA
                     , style "top" "52px"
-                    , style "z-index" "1000"
+                    , style "z-index" "100"
                     , style "background-color" "#FFFFFF"
                     ]
                    [viewBanner
@@ -181,7 +181,7 @@ view model =
                                                   style "position" "fixed"  --screen bottom position fixed //GUSA
                                                 , style "top" "200px"
                                                 , style "right" "200px"
-                                                , style "z-index" "1000"
+                                                , style "z-index" "100"
                                                 , style "width" "200px"
                                 ] <|
                                     [ cardContent []

@@ -129,7 +129,9 @@ viewHeaderLogOn page viewer navbar =
             Viewer.avatar viewer
     in
     fixedNavbar Top commonNavbarModifiers 
-    [style "background-color" "#0066bb"]
+    [style "background-color" "#0066bb"
+    ,style "z-index" "1000"
+    ]
     [ navbarBrand []
       ( navbarBurger False []
         [ span [] []
@@ -145,12 +147,12 @@ viewHeaderLogOn page viewer navbar =
       [ navbarStart [] 
         [ navbarItemLink False [] [ text "Home"  ]
         -- , navbarItemDropdown False Down [] 
-        , navbarItemDropdown navbar.docmenu_open Down [] 
+        , navbarItemDropdown navbar.docmenu_open Down []
                 ( navbarLink [ class "is-arrowless"
                               , href "/navbar/docmenu_open"
                               ,  attribute "data-target" "Docs"
                              ] [ text "Docs" ] )
-          [ navbarDropdown True Left [] 
+          [ navbarDropdown True Left []
             [ navbarItemLink False [] [ text "Crud"     ]
             , navbarItemLink False [] [ text "Detritus" ]
             , navbarItemLink True  [] [ text "Refuse"   ]
@@ -192,7 +194,9 @@ viewHeaderLogOn page viewer navbar =
 viewHeaderLogOff : Page ->  Navbar -> Html msg
 viewHeaderLogOff page  navbar =
     fixedNavbar Top commonNavbarModifiers 
-    [style "background-color" "#5CB661"]
+    [style "background-color" "#5CB661"
+    ,style "z-index" "1000"
+    ]
     [ navbarBrand []
       ( navbarBurger False []
         [ span [] []
