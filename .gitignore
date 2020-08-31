@@ -4,3 +4,9 @@ elm-stuff/
 repl-temp-*
 
 elm.js
+
+# parcel env
+node_modules 
+dist
+.cache
+

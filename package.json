@@ -1,0 +1,32 @@
+{
+  "name": "bulma-spa",
+  "version": "1.0.0",
+  "description": "👉 I gave [a talk](https://www.youtube.com/watch?v=x1FU3e0sT1I) to explain the principles I used to build this. I highly recommend watching it!",
+  "main": "elm.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index_parcel.html --out-dir dist",
+    "build": "parcel build index_parcel.html --out-dir dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devg1120/bulma-spa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devg1120/bulma-spa/issues"
+  },
+  "homepage": "https://github.com/devg1120/bulma-spa#readme",
+  "devDependencies": {
+    "node-elm-compiler": "^5.0.5",
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "elm": "^0.19.1-3"
+  }
+}
