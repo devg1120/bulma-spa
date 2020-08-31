@@ -166,7 +166,7 @@ view model =
                     , div [ class "col-md-3" ] <|
                         case model.tags of
                             Loaded tags ->
-                                let _ = Debug.log "tags!!" model.tags in
+                                -- let _ = Debug.log "tags!!" model.tags in
                                 [ div [ class "sidebar" ] <|
                                     [ p [] [ text "Popular Tags" ]
                                     , viewTags tags
@@ -176,7 +176,7 @@ view model =
                     , div [] <|
                         case model.tags of
                             Loaded tags ->
-                                let _ = Debug.log "tags!!" model.tags in
+                                -- let _ = Debug.log "tags!!" model.tags in
                                 [ card [
                                                   style "position" "fixed"  --screen bottom position fixed //GUSA
                                                 , style "top" "200px"

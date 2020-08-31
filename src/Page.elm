@@ -1,5 +1,7 @@
-module Page exposing (Page(..), Navbar, Msg, view, viewErrors )
+module Page exposing (Page(..),  Navbar, Msg, view, viewErrors )
 -- module Page exposing (Page(..), Model, view, viewErrors)
+
+import Dict exposing (Dict)
 
 import Api exposing (Cred)
 import Avatar
@@ -25,6 +27,8 @@ import Bulma.Layout exposing (..)
 import Html exposing ( Html, node, Attribute, main_, span, a, p, img ,br, text, strong, option, small, input, i )
 import Html.Attributes exposing ( attribute, style, src, placeholder, type_, href, rel, class )
 
+
+
 {-| Determines which navbar link (if any) will be rendered as active.
 
 Note that we don't enumerate every page here, because the navbar doesn't
@@ -45,7 +49,33 @@ type Page
 type alias Navbar = {
       docmenu_open : Bool
      ,appmenu_open : Bool
+     -- ,save_model   : SaveModel
+     --,save_model   : Dict String {}
      }
+
+
+{-
+type ModelName
+    = Comp01_
+    | Comp02_
+    | Comp03_
+    | Comp04_
+
+type Smodel
+    = Comp01.Model
+    = Comp02.Model
+    = Comp03.Model
+    = Comp04.Model
+-}
+
+-- type alias SaveModel  = Dict ModelName Smodel
+-- type alias SaveModel  = Dict ModelName {}
+-- type alias SaveModel  = Dict String {}
+{-
+type  SaveModel  
+      = Dict ModelName Comp01.Model
+      | Dict ModelName Comp02.Model
+-}
 
 type Msg = NoOp                                                             
      | DocMenuOpen | AppMenuOpen
@@ -113,10 +143,10 @@ viewHeader : String -> Page -> Maybe Viewer -> Navbar -> Html msg
 viewHeader title page maybeViewer navbar =
     case maybeViewer of
         Just viewer ->
-            let _ = Debug.log "LogOn:" page in
+            -- let _ = Debug.log "LogOn:" page in
             viewHeaderLogOn  title page viewer navbar
         Nothing ->
-            let _ = Debug.log "LogOff:" page in
+            -- let _ = Debug.log "LogOff:" page in
             viewHeaderLogOff title page  navbar
 
 

@@ -1,9 +1,10 @@
-module Main exposing (main)
+module Main exposing (main )
+
+import Dict exposing (Dict)
 
 import Api exposing (Cred)
 import Article.Slug exposing (Slug)
 import Avatar exposing (Avatar)
--- import Browser exposing (Document)
 import Browser exposing (..)
 import Browser.Navigation as Nav
 import Html exposing (..)
@@ -73,6 +74,15 @@ type Model
     | Comp04 Comp04.Model Navbar
 
 
+
+type alias SaveModel  
+      =  { 
+            comp01: Comp01.Model
+           ,comp02: Comp02.Model
+           ,comp03: Comp03.Model
+           ,comp04: Comp04.Model
+         }
+
 -- MODEL
 
 
@@ -81,6 +91,7 @@ init maybeViewer  url navKey =
     let
        navbar = { docmenu_open = False
                 , appmenu_open = False
+                      -- ,save_model = Dict.empty 
                 }
     in 
     changeRouteTo (Route.fromUrl url)
@@ -400,10 +411,25 @@ changeRouteTo maybeRoute  model =
             Comp04.init session navbar
                 |> updateWith Comp04 navbar GotComp04Msg model
 
+saveModel : Model -> (Model, Cmd Msg)
+saveModel model =
+    let
+      _  = case model of
+             Comp03  comp03 navbar ->
+               Debug.log "** Comp03:"  comp03.counter
+               --Dict.insert "Comp03" comp03 navbar.save_model
+             Comp04  comp04 navbar ->
+               Debug.log "** Comp04:"  comp04.counter
+             _ ->
+               Debug.log "** Other"   0
+
+    in
+    (model, Cmd.none)
+
 update : Msg -> Model ->  ( Model, Cmd Msg )
 update msg model  =
-    -- let    _ = Debug.log "** Main update msg:" msg  in
-    -- let    _ = Debug.log "** Main update model:" model  in
+    --let    _ = Debug.log "** Main update msg:" msg  in
+    --let    _ = Debug.log "** Main update model:" model  in
     case ( msg, model ) of
         ( MenuOpen menuid, _ ) ->
             -- let _ = Debug.log "-- Main update msg:  MenuOpen" menuid in
@@ -466,8 +492,24 @@ update msg model  =
                             -- ( model, Cmd.none )
 
                         Just _ ->
+                           -- let _ = Debug.log "*** internal click:" url.path in
+                           let _ = Debug.log "*** internal click:"  (Url.toString url) in
+                           let  _ = Debug.log "** Main update model:" model  in
+                           let _ = saveModel model in
+                           {-
+                           let _ =  case model of
+                                  Comp03  comp03 navbar ->
+                                          Debug.log "** Comp03:"  comp03.counter 
+                                  Comp04  comp04 navbar ->
+                                          Debug.log "** Comp04:"  comp04.counter 
+                                  _  ->
+                                          Debug.log "** Other"   0
+                           in
+                           -}
+  
+  
                            let
-                             (model_, cmd_) = update  (MenuOpen AllOff)  model
+                            (model_, cmd_) = update  (MenuOpen AllOff)  model
                            in
                             ( model_
                             , Nav.pushUrl (Session.navKey (toSession model)) (Url.toString url)
@@ -573,6 +615,7 @@ toggleMenu menuid navbar  =
                            docmenu_open = not navbar.docmenu_open
                           -- ,appmenu_open = navbar.appmenu_open 
                           ,appmenu_open = False
+                         -- ,save_model = Dict.empty 
                           }
               in
               new_navbar
@@ -584,6 +627,7 @@ toggleMenu menuid navbar  =
                         -- docmenu_open = navbar.docmenu_open
                         docmenu_open = False
                        ,appmenu_open = not navbar.appmenu_open 
+                      -- ,save_model = Dict.empty 
                        }
               in
               new_navbar
@@ -594,6 +638,7 @@ toggleMenu menuid navbar  =
                new_navbar = {
                         docmenu_open = False
                        ,appmenu_open = False
+                      -- ,save_model = Dict.empty 
                        }
               in
               new_navbar
