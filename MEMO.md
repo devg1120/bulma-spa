@@ -55,7 +55,10 @@
     ```
     parcel build index_parcel.html --out-dir dist
     ```
- - output ./dist
+ - output 
+    ```
+          ./dist
                  index.html
                  ****.js
+    ```
 
