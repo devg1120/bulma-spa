@@ -1,4 +1,4 @@
-module Page.Component02.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, update, view)
+module Page.Component02.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, toSaveModel, update, view)
 
 {-| The homepage. You can get here via either the / or /#/ routes.
 -}
@@ -16,6 +16,7 @@ import Http
 import Loading
 import Log
 import Page
+import Save
 import PaginatedList exposing (PaginatedList)
 import Session exposing (Session)
 import Task exposing (Task)
@@ -40,6 +41,7 @@ import Bulma.Layout exposing (..)
 type alias Model =
     { session : Session
     , navbar  : Page.Navbar
+    , savemodel : Save.SaveModel
     , timeZone : Time.Zone
     , feedTab : FeedTab
     , feedPage : Int
@@ -63,8 +65,8 @@ type FeedTab
     | TagFeed ArticleTag.Tag
 
 
-init : Session -> Page.Navbar -> ( Model, Cmd Msg )
-init session navbar =
+init : Session -> Page.Navbar -> Save.SaveModel -> ( Model, Cmd Msg )
+init session navbar savemodel =
     let
         feedTab =
             case Session.cred session of
@@ -79,6 +81,7 @@ init session navbar =
     in
     ( { session = session
       , navbar = navbar
+      , savemodel = savemodel
       , timeZone = Time.utc
       , feedTab = feedTab
       , feedPage = 1
@@ -507,4 +510,8 @@ toNavbar model =
 setNavbar : Model -> Page.Navbar -> Model
 setNavbar model navbar_ =
      { model | navbar = navbar_ } 
+
+toSaveModel : Model -> Save.SaveModel
+toSaveModel model =
+    model.savemodel
 

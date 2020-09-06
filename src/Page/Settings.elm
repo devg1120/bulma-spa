@@ -1,4 +1,4 @@
-module Page.Settings exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, update, view)
+module Page.Settings exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, toSaveModel, update, view)
 
 import Api exposing (Cred)
 import Api.Endpoint as Endpoint
@@ -21,6 +21,7 @@ import Task
 import Username as Username exposing (Username)
 import Viewer exposing (Viewer)
 import Page
+import Save
 
 
 -- MODEL
@@ -29,6 +30,7 @@ import Page
 type alias Model =
     { session : Session
     , navbar : Page.Navbar
+    , savemodel : Save.SaveModel
     , problems : List Problem
     , status : Status
     }
@@ -55,10 +57,11 @@ type Problem
     | ServerError String
 
 
-init : Session -> Page.Navbar -> ( Model, Cmd Msg )
-init session navbar =
+init : Session -> Page.Navbar -> Save.SaveModel -> ( Model, Cmd Msg )
+init session navbar savemodel =
     ( { session = session
       , navbar = navbar
+      , savemodel = savemodel
       , problems = []
       , status = Loading
       }
@@ -330,6 +333,10 @@ setNavbar : Model -> Page.Navbar -> Model
 setNavbar model navbar_ = 
       { model | navbar = navbar_ }
 
+
+toSaveModel : Model -> Save.SaveModel
+toSaveModel model =
+    model.savemodel
 
 
 -- FORM

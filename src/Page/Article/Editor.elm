@@ -1,4 +1,4 @@
-module Page.Article.Editor exposing (Model, Msg, initEdit, initNew, subscriptions, toSession, toNavbar, setNavbar, update, view)
+module Page.Article.Editor exposing (Model, Msg, initEdit, initNew, subscriptions, toSession, toNavbar, setNavbar, toSaveModel, update, view)
 
 import Api exposing (Cred)
 import Api.Endpoint as Endpoint
@@ -14,6 +14,7 @@ import Json.Decode as Decode
 import Json.Encode as Encode
 import Loading
 import Page
+import Save
 import Profile exposing (Profile)
 import Route
 import Session exposing (Session)
@@ -28,6 +29,7 @@ import Time
 type alias Model =
     { session : Session
     , navbar : Page.Navbar
+    , savemodel : Save.SaveModel
     , status : Status
     }
 
@@ -58,10 +60,11 @@ type alias Form =
     }
 
 
-initNew : Session -> Page.Navbar -> ( Model, Cmd msg )
-initNew session navbar =
+initNew : Session -> Page.Navbar -> Save.SaveModel -> ( Model, Cmd msg )
+initNew session navbar savemodel =
     ( { session = session
       , navbar = navbar
+      , savemodel = savemodel
       , status =
             EditingNew []
                 { title = ""
@@ -74,10 +77,11 @@ initNew session navbar =
     )
 
 
-initEdit : Session -> Slug -> Page.Navbar -> ( Model, Cmd Msg )
-initEdit session slug navbar =
+initEdit : Session -> Slug -> Page.Navbar -> Save.SaveModel -> ( Model, Cmd Msg )
+initEdit session slug navbar savemodel =
     ( { session = session
       , navbar = navbar
+      , savemodel = savemodel
       , status = Loading slug
       }
     , Cmd.batch
@@ -579,6 +583,10 @@ setNavbar : Model -> Page.Navbar -> Model
 setNavbar model navbar_ = 
       { model | navbar = navbar_ }
 
+
+toSaveModel : Model -> Save.SaveModel
+toSaveModel model =
+    model.savemodel
 
 -- INTERNAL
 

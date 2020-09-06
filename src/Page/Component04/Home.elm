@@ -1,4 +1,5 @@
-module Page.Component04.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, update, view)
+-- module Page.Component04.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, toSaveModel , update, view)
+module Page.Component04.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar,  update, view)
 
 
 import Api exposing (Cred)
@@ -14,6 +15,7 @@ import Http
 import Loading
 import Log
 import Page
+import Save
 import PaginatedList exposing (PaginatedList)
 import Session exposing (Session)
 import Task exposing (Task)
@@ -38,29 +40,24 @@ import Bulma.Layout exposing (..)
 type alias Model =
     { session : Session
     , navbar  : Page.Navbar
+    , savemodel : Save.SaveModel
     , timeZone : Time.Zone
     , counter  : Int
     }
 
 
-init : Session -> Page.Navbar -> ( Model, Cmd Msg )
-init session navbar =
---    let
---        feedTab =
---            case Session.cred session of
---                Just cred ->
---                    YourFeed cred
---
---                Nothing ->
---                    GlobalFeed
---
---        loadTags =
---            Http.toTask ArticleTag.list
---    in
+init : Session -> Page.Navbar -> Save.SaveModel -> ( Model, Cmd Msg )
+init session navbar savemodel =
+    let _ = Debug.log "-- Comp04 Home savemodel:" savemodel in
+    let
+       init_counter = if savemodel.comp04.save then savemodel.comp04.model.counter else 0
+    in
     ( { session = session
       , navbar = navbar
+      , savemodel = savemodel
       , timeZone = Time.utc
-      , counter = 0
+      -- , counter = 0
+      , counter = init_counter
       }
      , Cmd.none
 --    , Cmd.batch
@@ -201,4 +198,10 @@ toNavbar model =
 setNavbar : Model -> Page.Navbar -> Model
 setNavbar model navbar_ =
      { model | navbar = navbar_ } 
+
+{--
+toSaveModel : Model -> Save.SaveModel
+toSaveModel model =
+    model.savemodel
+--}
 

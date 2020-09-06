@@ -1,4 +1,4 @@
-module Page.Profile exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, update, view)
+module Page.Profile exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar,toSaveModel, update, view)
 
 {-| An Author's profile.
 -}
@@ -15,6 +15,7 @@ import Http
 import Loading
 import Log
 import Page
+import Save
 import PaginatedList exposing (PaginatedList)
 import Profile exposing (Profile)
 import Route
@@ -33,6 +34,7 @@ import Viewer exposing (Viewer)
 type alias Model =
     { session : Session
     , navbar : Page.Navbar
+    , savemodel : Save.SaveModel
     , timeZone : Time.Zone
     , errors : List String
     , feedTab : FeedTab
@@ -56,14 +58,15 @@ type Status a
     | Failed Username
 
 
-init : Session -> Username -> Page.Navbar -> ( Model, Cmd Msg )
-init session username navbar =
+init : Session -> Username -> Page.Navbar -> Save.SaveModel -> ( Model, Cmd Msg )
+init session username navbar savemodel =
     let
         maybeCred =
             Session.cred session
     in
     ( { session = session
       , navbar = navbar
+      , savemodel = savemodel
       , timeZone = Time.utc
       , errors = []
       , feedTab = defaultFeedTab
@@ -447,3 +450,8 @@ toNavbar model =
 setNavbar : Model -> Page.Navbar -> Model
 setNavbar model navbar_ = 
       { model | navbar = navbar_ }
+
+toSaveModel : Model -> Save.SaveModel
+toSaveModel model =
+    model.savemodel
+

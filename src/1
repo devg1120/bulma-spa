@@ -106,9 +106,8 @@ init maybeViewer  url navKey =
        savemodel = {
                comp01 = {save = False, model = {} }
               ,comp02 = {save = False, model = {} }
-              -- ,comp03 = {save = False, model = {} }
-              ,comp03 = {save = False, model =  { counter = 0} }
-              ,comp04 = {save = False, model =  { counter = 0} }
+              ,comp03 = {save = False, model = {} }
+              ,comp04 = {save = False, model = {} }
               }
     in 
     changeRouteTo (Route.fromUrl url)
@@ -315,17 +314,13 @@ toSaveModel page =
 
 --ADD COMPONENT-- toSaveModel
         Comp01 comp01 _ savemodel ->
-            -- Comp01.toSaveModel comp01
-            savemodel
+            Comp01.toSaveModel comp01
         Comp02 comp02 _ savemodel ->
-            -- Comp02.toSaveModel comp02
-            savemodel
+            Comp02.toSaveModel comp02
         Comp03 comp03 _ savemodel ->
-            -- Comp03.toSaveModel comp03
-            savemodel
+            Comp03.toSaveModel comp03
         Comp04 comp04 _ savemodel ->
-            -- Comp04.toSaveModel comp04
-            savemodel
+            Comp04.toSaveModel comp04
 
 updateNavbar : Model -> Navbar -> Model
 updateNavbar page new_navbar =
@@ -407,92 +402,16 @@ updateNavbar page new_navbar =
             in
             ( Comp04 new_comp04 new_navbar savemodel)
 
-{--
-updateSaveModel : Model -> SaveModel -> Model
-updateSaveModel page new_savemodel =
-    case page of
-        Redirect session navbar _ ->
-            ( Redirect session navbar new_savemodel)
-
-        NotFound session navbar _ ->
-            ( NotFound session navbar new_savemodel)
-
-        Home home navbar _ ->
-            let
-               new_home = Home.setSaveModel home new_savemodel
-            in
-            ( Home new_home navbar new_savemodel)
-
-        Settings settings navbar _ ->
-            let
-               new_settings = Settings.setSaveModel settings new_savemodel
-            in
-            ( Settings new_settings navbar new_savemodel)
-
-        Login login navbar _   ->
-            let
-               new_login = Login.setSaveModel login new_savemodel
-            in
-            ( Login new_login navbar new_savemodel)
-
-        Register register navbar _ ->
-            let
-               new_register = Register.setSaveModel register new_savemodel
-            in
-            ( Register new_register navbar new_savemodel)
-
-        Profile a profile navbar _ ->
-            let
-               new_profile = Profile.setSevaModel profile new_savemodel
-            in
-            ( Profile a new_profile navbar new_savemodel)
-
-        Article article navbar _ ->
-            let
-               new_article = Article.setSaveModel article new_savemodel
-            in
-            ( Article new_article navbar new_savemodel)
-
-        Editor a editor navbar _ ->
-            let
-               new_editor = Editor.setSaveModel editor new_savemodel
-            in
-            ( Editor a new_editor navbar new_savemodel)
-
---ADD COMPONENT-- updateNavbar
-        Comp01 comp01 navbar _ ->
-            let
-               new_comp01 = Comp01.setSaveModel comp01 new_savemodel
-            in
-            ( Comp01 new_comp01 navbar new_savemodel)
-        Comp02 comp02 navbar _ ->
-            let
-               new_comp02 = Comp02.setSaveModel comp02 new_savemodel
-            in
-            ( Comp02 new_comp02 navbar new_savemodel)
-        Comp03 comp03 navbar _ ->
-            let
-               new_comp03 = Comp03.setSaveModel comp03 new_savemodel
-            in
-            ( Comp03 new_comp03 navbar new_savemodel)
-        Comp04 comp04 navbar _ ->
-            let
-               new_comp04 = Comp04.setSaveModel comp04 new_savemodel
-            in
-            ( Comp04 new_comp04 navbar new_savemodel)
---}
-
 changeRouteTo : Maybe Route  ->Model -> ( Model, Cmd Msg )
 changeRouteTo maybeRoute  model =
     let
-        _ = Debug.log "** changeRouteTo model:" model
+        -- _ = Debug.log "** changeRouteTo"
         session =
             toSession model
         navbar =
             toNavbar model
         savemodel =
             toSaveModel model
-        _ = Debug.log "changeRouteTo savemodel: " savemodel
     in
     case maybeRoute of
         Nothing ->
@@ -565,32 +484,23 @@ old_saveModel model =
     in
     (model, Cmd.none)
 
--- saveModel : Model -> (Model, Cmd Msg)
-saveModel : Model -> Model 
+saveModel : Model -> (Model, Cmd Msg)
 saveModel model =
       case model of
              Comp03  comp03 navbar savemodel ->
-               let
-                    new_savemodel = { savemodel | comp03 = { save = True, model = {counter = comp03.counter} }}
-                    new_model = (Comp03 comp03 navbar new_savemodel)
-
-               in
-                -- (new_model, Cmd.none)
-                new_model 
+               let _ = Debug.log "** Comp03:"  comp03.counter in
+               (model, Cmd.none)
 
              Comp04  comp04 navbar savemodel ->
+               let _ = Debug.log "** Comp04:"  comp04.counter in
                let
-                    new_savemodel = { savemodel | comp04 = { save = True, model = {counter = comp04.counter} }}
-                    new_model = (Comp04 comp04 navbar new_savemodel)
-
+                    new_savemodel = { savemodel | comp04 = { save = True, model = comp04 }
                in
-                -- (new_model, Cmd.none)
-                new_model 
+               (model, Cmd.none)
 
              _ ->
-               -- let _ = Debug.log "** Other"   0 in
-               -- (model, Cmd.none)
-               model 
+               let _ = Debug.log "** Other"   0 in
+               (model, Cmd.none)
 
 
 update : Msg -> Model ->  ( Model, Cmd Msg )
@@ -631,6 +541,17 @@ update msg model  =
                 Browser.Internal url ->
                     case url.fragment of
                         Nothing ->
+                            -- If we got a link that didn't include a fragment,
+                            -- it's from one of those (href "") attributes that
+                            -- we have to include to make the RealWorld CSS work.
+                            --
+                            -- In an application doing path routing instead of
+                            -- fragment-based routing, this entire
+                            -- `case url.fragment of` expression this comment
+                            -- is inside would be unnecessary.
+
+                            -- let    _ = Debug.log "**  Browser.Internal Nothing:" msg  in
+
                             if  url.path == "/navbar/docmenu_open" then 
                                 -- let _ = Debug.log "**  doc:" url.path in
                                 update  (MenuOpen DocMenu)  model
@@ -649,9 +570,9 @@ update msg model  =
 
                         Just _ ->
                            -- let _ = Debug.log "*** internal click:" url.path in
-                           -- let _ = Debug.log "*** internal click:"  (Url.toString url) in
-                           -- let  _ = Debug.log "** Main update model:" model  in
-                           -- let _ = saveModel model in
+                           let _ = Debug.log "*** internal click:"  (Url.toString url) in
+                           let  _ = Debug.log "** Main update model:" model  in
+                           let _ = saveModel model in
                            {-
                            let _ =  case model of
                                   Comp03  comp03 navbar ->
@@ -665,13 +586,10 @@ update msg model  =
   
   
                            let
-                            new_model = saveModel model 
-                            -- (model_, cmd_) = update  (MenuOpen AllOff)  model
-                            (model_, cmd_) = update  (MenuOpen AllOff)  new_model
-                            _ = Debug.log "new model:"  model_
+                            (model_, cmd_) = update  (MenuOpen AllOff)  model
                            in
                             ( model_
-                            , Nav.pushUrl (Session.navKey (toSession model_)) (Url.toString url)
+                            , Nav.pushUrl (Session.navKey (toSession model)) (Url.toString url)
                             )
 
                 -- Browser.External href ->
@@ -701,8 +619,6 @@ update msg model  =
 --                    let    _ = Debug.log "** Main update msg:  ClickedLink External"   in
 --                    ( model, Cmd.none )
         ( ChangedUrl url, _ ) ->
-            --let    _ = Debug.log "** ChangedUrl:" url  in
-            let    _ = Debug.log "** ChangedUrl:" model  in
             changeRouteTo (Route.fromUrl url) model
             --let
             --  (model_, cmd_) = update  (MenuOpen AllOff)  model

@@ -1,4 +1,4 @@
-module Page.Login exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, update, view)
+module Page.Login exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar,toSaveModel,  update, view)
 
 {-| The login page.
 -}
@@ -15,6 +15,7 @@ import Json.Encode as Encode
 import Route exposing (Route)
 import Session exposing (Session)
 import Page
+import Save
 import Viewer exposing (Viewer)
 
 
@@ -25,6 +26,7 @@ import Viewer exposing (Viewer)
 type alias Model =
     { session : Session
     , navbar : Page.Navbar
+    , savemodel :Save.SaveModel
     , problems : List Problem
     , form : Form
     }
@@ -65,10 +67,11 @@ type alias Form =
     }
 
 
-init : Session -> Page.Navbar -> ( Model, Cmd msg )
-init session navbar =
+init : Session -> Page.Navbar -> Save.SaveModel -> ( Model, Cmd msg )
+init session navbar savemodel =
     ( { session = session
       , navbar = navbar
+      , savemodel = savemodel 
       , problems = []
       , form =
             { email = ""
@@ -346,3 +349,8 @@ toNavbar model =
 setNavbar : Model -> Page.Navbar -> Model
 setNavbar model navbar_ = 
       { model | navbar = navbar_ }
+
+toSaveModel : Model -> Save.SaveModel
+toSaveModel model =
+    model.savemodel
+

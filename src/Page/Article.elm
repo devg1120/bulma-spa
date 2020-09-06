@@ -1,4 +1,4 @@
-module Page.Article exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, update, view)
+module Page.Article exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, toSaveModel, update, view)
 
 {-| Viewing an individual article.
 -}
@@ -21,6 +21,7 @@ import Json.Decode as Decode
 import Loading
 import Log
 import Page
+import Save
 import Profile exposing (Profile)
 import Route
 import Session exposing (Session)
@@ -39,6 +40,7 @@ import Viewer exposing (Viewer)
 type alias Model =
     { session : Session
     , navbar  : Page.Navbar
+    , savemodel : Save.SaveModel
     , timeZone : Time.Zone
     , errors : List String
 
@@ -60,14 +62,15 @@ type CommentText
     | Sending String
 
 
-init : Session -> Slug -> Page.Navbar -> ( Model, Cmd Msg )
-init session slug navbar =
+init : Session -> Slug -> Page.Navbar -> Save.SaveModel -> ( Model, Cmd Msg )
+init session slug navbar savemodel =
     let
         maybeCred =
             Session.cred session
     in
     ( { session = session
       , navbar = navbar
+      , savemodel = savemodel
       , timeZone = Time.utc
       , errors = []
       , comments = Loading
@@ -540,6 +543,10 @@ toNavbar model =
 setNavbar : Model -> Page.Navbar -> Model
 setNavbar model navbar_ = 
       { model | navbar = navbar_ }
+
+toSaveModel : Model -> Save.SaveModel
+toSaveModel model =
+    model.savemodel
 
 -- INTERNAL
 

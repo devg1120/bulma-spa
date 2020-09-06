@@ -1,4 +1,4 @@
-module Page.Register exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, update, view)
+module Page.Register exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar,toSaveModel, update, view)
 
 import Api exposing (Cred)
 import Browser.Navigation as Nav
@@ -13,6 +13,7 @@ import Route exposing (Route)
 import Session exposing (Session)
 import Viewer exposing (Viewer)
 import Page
+import Save
 
 
 
@@ -22,6 +23,7 @@ import Page
 type alias Model =
     { session : Session
     , navbar : Page.Navbar
+    , savemodel : Save.SaveModel
     , problems : List Problem
     , form : Form
     }
@@ -39,10 +41,11 @@ type Problem
     | ServerError String
 
 
-init : Session -> Page.Navbar -> ( Model, Cmd msg )
-init session navbar =
+init : Session -> Page.Navbar -> Save.SaveModel -> ( Model, Cmd msg )
+init session navbar savemodel =
     ( { session = session
       , navbar = navbar
+      , savemodel = savemodel
       , problems = []
       , form =
             { email = ""
@@ -243,6 +246,11 @@ toNavbar model =
 setNavbar : Model -> Page.Navbar -> Model
 setNavbar model navbar_ = 
       { model | navbar = navbar_ }
+
+
+toSaveModel : Model -> Save.SaveModel
+toSaveModel model =
+    model.savemodel
 
 
 -- FORM
