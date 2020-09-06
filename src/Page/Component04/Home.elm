@@ -1,5 +1,5 @@
 -- module Page.Component04.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, toSaveModel , update, view)
-module Page.Component04.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar,  update, view)
+module Page.Component04.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, toSaveModel, toInitModel,  update, view)
 
 
 import Api exposing (Cred)
@@ -42,7 +42,7 @@ type alias Model =
     , navbar  : Page.Navbar
     , savemodel : Save.SaveModel
     , timeZone : Time.Zone
-    , counter  : Int
+     , counter  : Int
     }
 
 
@@ -56,7 +56,6 @@ init session navbar savemodel =
       , navbar = navbar
       , savemodel = savemodel
       , timeZone = Time.utc
-      -- , counter = 0
       , counter = init_counter
       }
      , Cmd.none
@@ -90,7 +89,8 @@ view model =
                     , style "background-color" "#FFFFFF"
                    ]
                    [ Html.button [ onClick Decrement ] [ text "-" ]
-                    , div [] [ text (String.fromInt model.counter) ]
+                     , div [] [ text (String.fromInt model.counter) ]
+                    -- , div [] [ text (String.fromInt model.data.counter) ]
                     , Html.button [ onClick Increment ] [ text "+" ]
                    ]
             ]
@@ -199,9 +199,12 @@ setNavbar : Model -> Page.Navbar -> Model
 setNavbar model navbar_ =
      { model | navbar = navbar_ } 
 
-{--
-toSaveModel : Model -> Save.SaveModel
-toSaveModel model =
-    model.savemodel
---}
 
+toSaveModel : Model -> Save.Comp04_Model
+toSaveModel model =
+             { counter = model.counter }
+
+
+toInitModel :  Save.Comp04_Model
+toInitModel  =
+             { counter = 0 }

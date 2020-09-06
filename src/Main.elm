@@ -91,11 +91,15 @@ init maybeViewer url navKey =
             }
 
       --ADD COMPONENT-- init
+        --comp03_init = Comp03.toInitModel
+        --comp04_init = Comp04.toInitModel
         savemodel =
             { comp01 = { save = False, model = {} }
             , comp02 = { save = False, model = {} }
-            , comp03 = { save = False, model = { counter = 0 } }
-            , comp04 = { save = False, model = { counter = 0 } }
+            --, comp03 = { save = False, model = { counter = 0 } }
+            , comp03 = { save = False, model = Comp03.toInitModel }
+            --, comp04 = { save = False, model = { counter = 0 } }
+            , comp04 = { save = False, model = Comp04.toInitModel }
             }
     in
     changeRouteTo (Route.fromUrl url)
@@ -510,7 +514,9 @@ saveModel model =
         Comp03 comp03 navbar savemodel ->
             let
                 new_savemodel =
-                    { savemodel | comp03 = { save = True, model = { counter = comp03.counter } } }
+                    { savemodel | comp03 = { save = True, 
+                       --model = { counter = comp03.counter } } }
+                       model = Comp03.toSaveModel comp03 } }
 
                 new_model =
                     Comp03 comp03 navbar new_savemodel
@@ -520,7 +526,9 @@ saveModel model =
         Comp04 comp04 navbar savemodel ->
             let
                 new_savemodel =
-                    { savemodel | comp04 = { save = True, model = { counter = comp04.counter } } }
+                    { savemodel | comp04 = { save = True, 
+                       -- model = { counter = comp04.counter } } }
+                       model = Comp04.toSaveModel comp04 } }
 
                 new_model =
                     Comp04 comp04 navbar new_savemodel
