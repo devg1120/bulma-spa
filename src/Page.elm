@@ -49,33 +49,10 @@ type Page
 type alias Navbar = {
       docmenu_open : Bool
      ,appmenu_open : Bool
-     -- ,save_model   : SaveModel
-     --,save_model   : Dict String {}
      }
 
 
-{-
-type ModelName
-    = Comp01_
-    | Comp02_
-    | Comp03_
-    | Comp04_
 
-type Smodel
-    = Comp01.Model
-    = Comp02.Model
-    = Comp03.Model
-    = Comp04.Model
--}
-
--- type alias SaveModel  = Dict ModelName Smodel
--- type alias SaveModel  = Dict ModelName {}
--- type alias SaveModel  = Dict String {}
-{-
-type  SaveModel  
-      = Dict ModelName Comp01.Model
-      | Dict ModelName Comp02.Model
--}
 
 type Msg = NoOp                                                             
      | DocMenuOpen | AppMenuOpen

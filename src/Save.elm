@@ -1,6 +1,6 @@
--- module Save exposing (Save(..),  SaveModel )
 module Save exposing (  SaveModel )
 
+--ADD COMPONENT-- SaveModel
 type  alias SaveModel
       =  {
             comp01: {save : Bool, model : {} }
