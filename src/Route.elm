@@ -30,6 +30,7 @@ type Route
     | Comp02
     | Comp03
     | Comp04
+    | Comp05
 
 
 parser : Parser (Route -> a) a
@@ -49,6 +50,7 @@ parser =
         , Parser.map Comp02 (s "comp02")
         , Parser.map Comp03 (s "comp03")
         , Parser.map Comp04 (s "comp04")
+        , Parser.map Comp05 (s "comp05")
         ]
 
 
@@ -129,3 +131,7 @@ routeToPieces page =
 
         Comp04 ->
             [ "comp04" ]
+
+        Comp05 ->
+            [ "comp05" ]
+

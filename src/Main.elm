@@ -21,6 +21,7 @@ import Page.Component01.Home as Comp01
 import Page.Component02.Home as Comp02
 import Page.Component03.Home as Comp03
 import Page.Component04.Home as Comp04
+import Page.Component05.Home as Comp05
 import Page.Home as Home
 import Page.Login as Login
 import Page.NotFound as NotFound
@@ -74,6 +75,7 @@ type Model
     | Comp02 Comp02.Model Navbar SaveModel
     | Comp03 Comp03.Model Navbar SaveModel
     | Comp04 Comp04.Model Navbar SaveModel
+    | Comp05 Comp05.Model Navbar SaveModel
 
 
 
@@ -100,6 +102,7 @@ init maybeViewer url navKey =
             , comp03 = { save = False, model = Comp03.toInitModel }
             --, comp04 = { save = False, model = { counter = 0 } }
             , comp04 = { save = False, model = Comp04.toInitModel }
+            , comp05 = { save = False, model = Comp05.toInitModel }
             }
     in
     changeRouteTo (Route.fromUrl url)
@@ -169,6 +172,9 @@ view model =
         Comp04 comp04 navbar savemodel ->
             viewPage navbar Page.Other GotComp04Msg (Comp04.view comp04)
 
+        Comp05 comp05 navbar savemodel ->
+            viewPage navbar Page.Other GotComp05Msg (Comp05.view comp05)
+
 
 
 -- UPDATE
@@ -199,6 +205,7 @@ type Msg
     | GotComp02Msg Comp02.Msg
     | GotComp03Msg Comp03.Msg
     | GotComp04Msg Comp04.Msg
+    | GotComp05Msg Comp05.Msg
 
 
 toSession : Model -> Session
@@ -244,6 +251,8 @@ toSession page =
         Comp04 comp04 _ savemodel ->
             Comp04.toSession comp04
 
+        Comp05 comp05 _ savemodel ->
+            Comp05.toSession comp05
 
 toNavbar : Model -> Page.Navbar
 toNavbar page =
@@ -287,6 +296,9 @@ toNavbar page =
 
         Comp04 comp04 _ savemodel ->
             Comp04.toNavbar comp04
+
+        Comp05 comp05 _ savemodel ->
+            Comp05.toNavbar comp05
 
 
 toSaveModel : Model -> Save.SaveModel
@@ -334,6 +346,10 @@ toSaveModel page =
 
         Comp04 comp04 _ savemodel ->
             -- Comp04.toSaveModel comp04
+            savemodel
+
+        Comp05 comp05 _ savemodel ->
+            -- Comp05.toSaveModel comp05
             savemodel
 
 
@@ -424,6 +440,13 @@ updateNavbar page new_navbar =
             in
             Comp04 new_comp04 new_navbar savemodel
 
+        Comp05 comp05 _ savemodel ->
+            let
+                new_comp05 =
+                    Comp05.setNavbar comp05 new_navbar
+            in
+            Comp05 new_comp05 new_navbar savemodel
+
 
 
 
@@ -504,6 +527,10 @@ changeRouteTo maybeRoute model =
             Comp04.init session navbar savemodel
                 |> updateWith Comp04 navbar savemodel GotComp04Msg model
 
+        Just Route.Comp05 ->
+            Comp05.init session navbar savemodel
+                |> updateWith Comp05 navbar savemodel GotComp05Msg model
+
 
 
 
@@ -532,6 +559,18 @@ saveModel model =
 
                 new_model =
                     Comp04 comp04 navbar new_savemodel
+            in
+            new_model
+
+        Comp05 comp05 navbar savemodel ->
+            let
+                new_savemodel =
+                    { savemodel | comp05 = { save = True, 
+                       -- model = { counter = comp05.counter } } }
+                       model = Comp05.toSaveModel comp05 } }
+
+                new_model =
+                    Comp05 comp05 navbar new_savemodel
             in
             new_model
 
@@ -646,6 +685,10 @@ update msg model =
             Comp04.update subMsg comp04
                 |> updateWith Comp04 navbar savemodel GotComp04Msg model
 
+        ( GotComp05Msg subMsg, Comp05 comp05 navbar savemodel ) ->
+            Comp05.update subMsg comp05
+                |> updateWith Comp05 navbar savemodel GotComp05Msg model
+
         ( _, _ ) ->
             let
                 _ =
@@ -741,6 +784,8 @@ subscriptions model =
         Comp04 comp04 navbar savemodel ->
             Sub.map GotComp04Msg (Comp04.subscriptions comp04)
 
+        Comp05 comp05 navbar savemodel ->
+            Sub.map GotComp05Msg (Comp05.subscriptions comp05)
 
 
 -- MAIN
