@@ -4,6 +4,7 @@ module Save exposing (  SaveModel
                        ,Comp05_Model 
                        )
 
+import Color exposing (Color) 
 
 --ADD COMPONENT-- SaveModel
 type  alias SaveModel
@@ -24,6 +25,8 @@ type alias Comp03_Model
 type alias Comp04_Model
      =  {
           counter : Int
+        , color1  : Color.Color
+        , color2  : Color.Color
         }
 type alias Comp05_Model
      =  {
