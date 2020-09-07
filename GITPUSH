@@ -1,3 +1,8 @@
-gusa1120@gsub:~/Elm/bulma-spa$ git push -u origin master
+
+$ git add -A
+
+$ git commit -m "comment commit"
+
+$ git push -u origin master
 Username for 'https://github.com': devg1120
 Password for 'https://devg1120@github.com': 

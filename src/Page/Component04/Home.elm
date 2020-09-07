@@ -1,4 +1,4 @@
-module Page.Component04.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, toSaveModel, toInitModel,  update, view)
+module Page.Component04.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, SaveModel, toSaveModel, toInitModel,  update, view)
 
 
 import Api exposing (Cred)
@@ -319,7 +319,15 @@ setNavbar model navbar_ =
      { model | navbar = navbar_ } 
 
 
-toSaveModel : Model -> Save.Comp04_Model
+type alias SaveModel
+     =  {
+          counter : Int
+        , color1  : Color.Color
+        , color2  : Color.Color
+        }
+
+-- toSaveModel : Model -> Save.Comp04_SaveModel
+toSaveModel : Model -> SaveModel
 toSaveModel model =
              { counter = model.counter 
              , color1 = model.color1
@@ -327,7 +335,8 @@ toSaveModel model =
              }
 
 
-toInitModel :  Save.Comp04_Model
+-- toInitModel :  Save.Comp04_SaveModel
+toInitModel :  SaveModel
 toInitModel  =
              { counter = 0 
              , color1 = Color.rgb 50 200 100

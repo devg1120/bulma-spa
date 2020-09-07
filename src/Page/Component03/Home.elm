@@ -1,5 +1,5 @@
 -- module Page.Component03.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar,toSaveModel,  update, view)
-module Page.Component03.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, toSaveModel, toInitModel , update, view)
+module Page.Component03.Home exposing (Model, Msg, init, subscriptions, toSession, toNavbar, setNavbar, SaveModel, toSaveModel, toInitModel , update, view)
 
 
 import Api exposing (Cred)
@@ -202,11 +202,17 @@ setNavbar : Model -> Page.Navbar -> Model
 setNavbar model navbar_ =
      { model | navbar = navbar_ } 
 
+type alias SaveModel
+     =  {
+          counter : Int
+        }
 
-toSaveModel : Model -> Save.Comp03_Model
+-- toSaveModel : Model -> Save.Comp03_SaveModel
+toSaveModel : Model -> SaveModel
 toSaveModel model =
      { counter = model.counter }
 
-toInitModel :  Save.Comp03_Model
+-- toInitModel :  Save.Comp03_SaveModel
+toInitModel :  SaveModel
 toInitModel  =
      { counter = 0 }
